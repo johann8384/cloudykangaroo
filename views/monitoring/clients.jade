@@ -23,6 +23,7 @@ block content
 
 block footer
   include ../datatables_js
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js")
   script(type='text/javascript').
     // Activate Google Prettify in this page
     addEventListener('load', prettyPrint, false);
@@ -55,6 +56,9 @@ block footer
             "sWidth": "60px"
           }, {
             "mData": "timestamp",
+            "mRender": function(timestamp) {
+              return moment(timestamp).format('MMM DD H:mm:ss');
+            },
             "sWidth": "80px"
           }, {
             "mData": "company",
