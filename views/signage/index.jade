@@ -2,6 +2,7 @@ extends layout
 block head
   link(rel='stylesheet', href='/stylesheets/bootstrap-tile.css')
   link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet', href='/stylesheets/unicorn.css')
 block content
     .row
       .col-md-12
@@ -54,6 +55,16 @@ block content
             #gauge9.gauge.xl
             #gauge1.gauge.xl
     .row
+      .col-xs-12-center.text-center
+        ul.stat-boxes
+          li.popover-visits
+            span.left.sparkline_bar_good
+              span 2,4,9,7,12,10,12
+                i.icon-double-angle-up +10%
+            .right
+              strong 36094
+              span Tickets
+    .row
       .col-md-12
         .panel.panel-default
           .panel-heading XL Tiles
@@ -90,3 +101,13 @@ block footer
   script(src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js")
   script(src="/javascripts/justgage.1.0.1.min.js")
   script(src="/javascripts/demo_gauge.js")
+
+  script(src="/javascripts/jquery.sparkline.js")
+  script(type="text/javascript").
+    $(".sparkline_line_good span").sparkline("html", {
+      type: "line",
+      fillColor: "#B1FFA9",
+      lineColor: "#459D1C",
+      width: "50",
+      height: "24"
+    });
