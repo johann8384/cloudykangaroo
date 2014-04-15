@@ -273,6 +273,10 @@ module.exports = function(app, roles) {
     return isHelpdesk(req) || isAdmin(req) || isSuper(req);
   });
 
+  roleHandler.use('view pipeline', function (req) {
+    return isSales(req) || isAdmin(req) || isSuper(req);
+  });
+
   roleHandler.use('view accounts', function (req) {
     return isHelpdesk(req) || isAdmin(req) || isSuper(req);
   });
@@ -292,6 +296,10 @@ module.exports = function(app, roles) {
   });
 
   roleHandler.use('issue credit', isSuper);
+
+  roleHandler.use('view pipeline detail', function(req) {
+    return isSales(req) || isAdmin(req) || isSuper(req);
+  });
 
   roleHandler.use('view monitoring events',  function (req) {
     return isSales(req) || isHelpdesk(req) || isAdmin(req) || isSuper(req);
