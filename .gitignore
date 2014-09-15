@@ -1,3 +1,9 @@
+logs/*
+!.gitkeep
+bower_components/
+tmp
+.DS_Store
+.idea
 lib-cov
 coverage
 pattern
