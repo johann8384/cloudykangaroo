@@ -84,6 +84,13 @@ module.exports = function (config, logger, crmModule) {
     );
   };
 
+  var getDeviceByIP = function(IPAddress, callback) {
+    var node = { address: 'unknown', name: hostname, safe_mode: 0, subscriptions: [], timestamp: 0 };
+    var events = [ { output: "No Events Found", status: 1, issued: Date.now(), handlers: [], flapping: false, occurrences: 0, client: hostname, check: 'N/A'}];
+    var sensuDevice = {error: 'No information is known about ' + hostname, events: events, node: node};
+    callback(null, sensuDevice);
+  };
+
   var getDevice = function(hostname, callback) {
     var node = { address: 'unknown', name: hostname, safe_mode: 0, subscriptions: [], timestamp: 0 };
     var events = [ { output: "No Events Found", status: 1, issued: Date.now(), handlers: [], flapping: false, occurrences: 0, client: hostname, check: 'N/A'}];
@@ -104,15 +111,33 @@ module.exports = function (config, logger, crmModule) {
   };
 
   module.getInfo = getInfo;
-  module.getEvents = getEvents;
-  module.getDeviceEvents = getDeviceEvents;
-  module.getStashes = getStashes;
+
   module.silenceCheck = silenceCheck;
   module.silenceClient = silenceClient;
   module.unSilenceEvent = unSilenceEvent;
   module.unSilenceClient = unSilenceClient;
   module.getDevice = getDevice;
-  module.getDevices = getDevices;
+
+  module.getChecks          = monModule.getChecks(standardCallback);
+  module.getHosts           = getDevices;
+  module.getEvents          = getEvents;
+  module.getEventsByHost    = getDeviceEvents;
+  module.getEventsByService = monModule.getEventsByService(serviceID, standardCallback);
+  module.getHostByHostname  = getDevice;
+  module.getHostByIP        = getDeviceByIP;
+  module.getSilencedHosts   = getStashes;
+  module.getSilencedServices = monModule.getSilencedServices(standardCallback);
+  module.silenceHost        = silenceClient;
+  module.silenceService     = silenceClient;
+  module.unsilenceHost      = monModule.unsilenceHost(hostID, standardCallback);
+  module.unsilenceService   = monModule.unsilenceService(serviceID, standardCallback);
+  module.getServicesGroup   = monModule.getServicesGroup(serviceGroupID, standardCallback);
+  module.getHostGroup       = monModule.getHostGroup(hostGroupID, standardCallback);
+  module.getServicesByHost  = monModule.getServicesByHost(hostID, standardCallback);
+  module.getHostsByService  = monModule.getHostsByService(serviceID, standardCallback);
+  module.submitCheckStatus  = monModule.submitCheckStatus(checkID, checkStatus, checkDetail, standardCallback);
+  module.getStatus          = monModule.getStatus(standardCallback);
+
 
   return module;
 };

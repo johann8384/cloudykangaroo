@@ -133,7 +133,7 @@ try {
 
 /* Load the puppet module */
 try {
-  var puppetModule = require('./lib/puppet')(config, logger, redisClient);
+  var puppetModule = require('./lib/modules/backends/puppet')(config, logger, redisClient);
 } catch (e) {
   logger.log('error', 'Could not initialize PuppetDB Module', { error: e.message});
   throw e;

@@ -1,9 +1,10 @@
 /**
- * LDAP Module Stub
+ *
  * @param config
+ * @param logger
  * @param credentials
  * @param redis
- * @returns {{}}
+ * @returns {module|*}
  */
 module.exports = function(config, logger, credentials, redis) {
   "use strict";
@@ -33,12 +34,14 @@ module.exports = function(config, logger, credentials, redis) {
     done(err, ret);
   };
 
-   module.getUsers          = ldapModule.getUsers(standardCallback);
-   module.getGroups         = ldapModule.getGroups(standardCallback);
-   module.getUserByEmail    = ldapModule.getUsersByEmail(standardCallback);
-   module.getUsersByGroup   = ldapModule.getUsersByGroup(standardCallback);
-   module.getGroupsByUser   = ldapModule.getGroupsByUser(standardCallback);
-   module.authenticateUser  = ldapModule.authenticateUser(standardCallback);
-
+  module.getUsers          = ldapModule.getUsers(standardCallback);
+  module.getGroups         = ldapModule.getGroups(standardCallback);
+  module.getUserByEmail    = ldapModule.getUsersByEmail(emailAddress, standardCallback);
+  module.getUsersByGroup   = ldapModule.getUsersByGroup(groupID, standardCallback);
+  module.getGroupsByUser   = ldapModule.getGroupsByUser(userID, standardCallback);
+  module.authenticateUser  = ldapModule.authenticateUser(username, password, standardCallback);
+  module.resetPassword     = ldapModule.resetPassword(username, password, standardCallback);
+  module.triggerPasswordReset = ldapModule.triggerPasswordReset(username, standardCallback);
+  module.getUserID        = ldapModule.getUserID(emailAddress, standardCallback);
   return module;
 };

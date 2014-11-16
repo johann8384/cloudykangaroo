@@ -1,7 +1,7 @@
 module.exports = function (config, logger, crmModule, redisClient) {
   "use strict";
 
-  var utils = require('./utils');
+  var utils = require('./../../utils');
 
   var getEvents = function (getEventsCallback ) {
     var _ = require('underscore');

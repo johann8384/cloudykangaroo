@@ -81,7 +81,7 @@ var assert = require('assert');
 describe("monModule getInfo", function (){
   "use strict";
   it('should return sensu server info', function () {
-    var monModule = require('../../src/lib/monitoring')(config, logger, crmModule, redisClient);
+    var monModule = require('../../src/lib/modules/backends/monitoring')(config, logger, crmModule, redisClient);
     monModule.getInfo(function (err, info) {
       assert.equal(null, err);
       assert.equal("0.12.1", info.sensu.version);
@@ -92,7 +92,7 @@ describe("monModule getInfo", function (){
 describe("MOCK monModule getInfo", function (){
   "use strict";
   it('should return sensu server info', function () {
-    var monModule = require('../../src/lib/mockMonitoring')(config, logger, crmModule, redisClient);
+    var monModule = require('../../src/lib/modules/backends/mockMonitoring')(config, logger, crmModule, redisClient);
     monModule.getInfo(function (err, info) {
       assert.equal(null, err);
       assert.equal("0.12.1", info.sensu.version);
