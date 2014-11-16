@@ -38,7 +38,7 @@ module.exports = function (app, config, server) {
       });
 
     pubsubClient.on("message", function(channel, message) {
-      var msgObj = {channel: channel, text: message, uuid:require('./utils').uid(8)};
+      var msgObj = {channel: channel, text: message, uuid:require('./../utils').uid(8)};
       socket.in(channel).emit('popAlert', JSON.stringify(msgObj), function(data) {
         app.locals.logger.log('silly', 'handled message', {uuid: data});
       });

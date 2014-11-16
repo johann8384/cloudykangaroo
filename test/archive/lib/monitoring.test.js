@@ -41,7 +41,7 @@ var redisClient = redis.createClient(config.redis.port, config.redis.host);
 
 var crmAuth = credentials.crmAuth();
 
-require('../../src/lib/nock')(config, logger);
+require('../../src/lib/archive/nock')(config, logger);
 
 /* Kick off the Ubersmith background update, pulls from Ubersmith and stores in Redis */
 try {
@@ -81,7 +81,7 @@ var assert = require('assert');
 describe("monModule getInfo", function (){
   "use strict";
   it('should return sensu server info', function () {
-    var monModule = require('../../src/lib/monitoring')(config, logger, crmModule, redisClient);
+    var monModule = require('../../src/lib/archive/monitoring')(config, logger, crmModule, redisClient);
     monModule.getInfo(function (err, info) {
       assert.equal(null, err);
       assert.equal("0.12.1", info.sensu.version);

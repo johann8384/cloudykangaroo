@@ -26,3 +26,4 @@ dump.rdb
 access.log
 system-credentials.js
 system-credentials.js.tmp
+components

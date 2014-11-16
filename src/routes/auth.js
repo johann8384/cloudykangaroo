@@ -12,12 +12,6 @@ module.exports = function (app, config, authenticator) {
     return { username: username, requestID: req.id, sessionID: req.sessionID };
   };
 
-  app.get('/oauth2/login', authenticator.oauth2.login);
-  app.post('/oauth2/login', authenticator.oauth2.authenticate);
-  app.get('/oauth2/authorize', authenticator.oauth2.authorization);
-  app.post('/oauth2/authorize/decision', authenticator.oauth2.decision);
-  app.post('/oauth2/token', authenticator.oauth2.token);
-
   app.get('/account/login', function (req, res) {
     res.render('account/login', { message:req.flash('error')});
   });

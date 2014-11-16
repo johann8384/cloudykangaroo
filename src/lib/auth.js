@@ -1,12 +1,10 @@
 module.exports = function(app, credentials, config, redisClient) {
   "use strict";
   var passport = require('passport');
-  var CrowdAuth = credentials.CrowdAuth();
-  var AtlassianCrowdStrategy = require('passport-atlassian-crowd').Strategy;
   var LocalStrategy = require('passport-local').Strategy;
   var BasicStrategy = require('passport-http').BasicStrategy;
   var DigestStrategy = require('passport-http').DigestStrategy;
-  var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
+  //var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
   var BearerStrategy = require('passport-http-bearer').Strategy;
 
   var login = require('connect-ensure-login');
@@ -167,8 +165,8 @@ module.exports = function(app, credentials, config, redisClient) {
    * Authentication System
    */
 
-  var authenticationStrategy = 'atlassian-crowd';
-  var authenticationAPIStrategy = ['bearer', 'atlassian-crowd'];
+  var authenticationStrategy = 'local';
+  var authenticationAPIStrategy = ['bearer', 'local'];
   var users = [];
 
   passport.serializeUser(serializeUser);
@@ -179,33 +177,7 @@ module.exports = function(app, credentials, config, redisClient) {
     authenticationAPIStrategy = ['bearer', 'local'];
     passport.use(new LocalStrategy(authenticateUserLocally));
   } else if (process.env.NODE_ENV === 'production') {
-    authenticationStrategy = 'atlassian-crowd';
-
-    var CrowdOptions = {
-      crowdServer: CrowdAuth.server,
-      crowdApplication: CrowdAuth.application,
-      crowdApplicationPassword: CrowdAuth.password,
-      retrieveGroupMemberships: true
-    };
-
-    var CrowdLoginCallback = function (userprofile, done) {
-      // asynchronous verification, for effect...
-      process.nextTick(function () {
-        var _ = require('underscore');
-        var exists = _.any(users, function (user) {
-          return user.id === userprofile.id;
-        });
-
-        if (!exists) {
-          users.push(userprofile);
-        }
-
-        return done(null, userprofile);
-      });
-    };
-
-    passport.use(new AtlassianCrowdStrategy(CrowdOptions, CrowdLoginCallback));
-    passport.use(new LocalStrategy(authenticateCRMUser));
+    throw new Error('Production Authentication not Defined');
   } else {
     throw new Error(process.env.NODE_ENV +  ' is not a known environment, cannot proceed');
   }
@@ -233,7 +205,7 @@ module.exports = function(app, credentials, config, redisClient) {
    */
   passport.use(new BasicStrategy(authenticateClientLocally));
   passport.use(new DigestStrategy(authenticateClientLocally));
-  passport.use(new ClientPasswordStrategy(authenticateClientLocally));
+  //passport.use(new ClientPasswordStrategy(authenticateClientLocally));
 
   /**
    * BearerStrategy

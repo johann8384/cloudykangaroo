@@ -7,7 +7,7 @@ module.exports = function(config, logger) {
   if (process.env.NODE_ENV !== 'production') {
     redisCache = cacheManager.caching({store: 'memory', max: 1024*64 /*Bytes*/, ttl: 15 /*seconds*/});
   } else {
-    var redisStore = require('./redis_store');
+    var redisStore = require('./../redis_store');
     redisCache = cacheManager.caching({store: redisStore, db: config.redis.cache, ttl: config.redis.ttl/*seconds*/});
   }
 

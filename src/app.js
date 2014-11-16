@@ -48,7 +48,7 @@ if (config.redis && config.redis.class) {
 }
 
 if (config.USE_NOCK === 'true') {
-  require('./lib/nock')(config, logger);
+  require('./lib/archive/nock')(config, logger);
 }
 
 /* Connect to Redis */
@@ -87,58 +87,6 @@ redisClient.on("connect", function () {
   });
 });
 
-var crmAuth = credentials.crmAuth();
-
-/* Kick off the Ubersmith background update, pulls from Ubersmith and stores in Redis */
-try {
-  var crmModuleConfig = {
-    mgmtDomain: config.mgmtDomain,
-    redisPort: config.redis.port,
-    redisHost: config.redis.host,
-    redisDb: config.redis.db,
-    uberAuth: crmAuth,
-    logLevel: config.log.level,
-    logDir: config.log.directory,
-    warm_cache: config.crmModule.warmCache
-  };
-
-  var crmModule = {};
-
-  if (config.crmModule && config.crmModule.class) {
-    crmModule = require(config.crmModule.class)(crmModuleConfig);
-  } else {
-    var err = new Error('no crmModule specified in configuration');
-    throw err;
-  }
-}
-  catch (e) {
-
-  logger.log('error', 'Could not initialize CRM Module', { error: e.message });
-  throw e;
-}
-
-/* Load the monitoring module */
-try {
-  if (config.monModule && config.monModule.class) {
-    monModule = require(config.monModule.class)(config, logger, crmModule, redisClient);
-  } else {
-    var err = new Error('no monModule specified in configuration');
-    throw err;
-  }
-
-} catch (e) {
-  logger.log('error', 'Could not initialize Monitoring Module', { error: e.message});
-  throw e;
-}
-
-/* Load the puppet module */
-try {
-  var puppetModule = require('./lib/puppet')(config, logger, redisClient);
-} catch (e) {
-  logger.log('error', 'Could not initialize PuppetDB Module', { error: e.message});
-  throw e;
-}
-
 /* Load the application metrics module */
 try {
   var appMetrics = require('./lib/metrics')(logger, config);
@@ -154,14 +102,18 @@ try {
 var app = express();
 
 var pjson = require('../package.json');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var compression = require('compression');
+var favicon = require('serve-favicon');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
 
 // all environments
 app.locals.config = config;
 app.locals.logger = logger;
-app.locals.crmModule = crmModule;
-app.locals.monModule = monModule;
 app.locals.appMetrics = appMetrics;
-app.locals.puppetModule = puppetModule;
 app.locals.title = 'Cloudy Kangaroo';
 app.locals.version = pjson.version;
 app.locals.addMenuContent = menus.addMenuContent;
@@ -175,16 +127,14 @@ app.set('port', config.http.port || 3000);
 app.set('views', path.join(__dirname, 'views'));
 /*jslint nomen: false*/
 app.set('view engine', 'jade');
-app.set('sensu_uri', config.sensu.uri);
-app.set('puppetdb_uri', config.puppetdb.uri);
-app.use(express.bodyParser());
+//app.use(bodyParser());
 app.use(reqLogger.create(logger));
-app.use(express.logger({stream: logstream }));
-app.use(express.compress());
-app.use(express.favicon());
-app.use(express.json({strict: false}));
-app.use(express.urlencoded());
-app.use(express.methodOverride());
+app.use(morgan('combined', {stream: logstream }));
+app.use(compression());
+app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(bodyParser.json({strict: false}));
+app.use(bodyParser.urlencoded());
+app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(require('connect-requestid'));
 app.use(useragent.express());
 
@@ -192,10 +142,10 @@ app.use(useragent.express());
  Initialize the session and prepare user authentication
  */
 
-app.use(express.cookieParser(config.cookie.secret));
+app.use(cookieParser(config.cookie.secret))
 var session = require('express-session') , RedisStore = require('connect-redis')(session);
 
-app.use(express.session({
+app.use(session({
   store: new RedisStore({
     host: config.redis.host,
     port: config.redis.port
@@ -203,49 +153,31 @@ app.use(express.session({
   secret: config.cookie.secret
 }));
 
-app.use(flash());
-
 var authenticator = require('./lib/auth')(app, credentials, config, redisClient);
-var oauth2 = require('./lib/oauth2')(app, config, authenticator);
 var roleManager = require('./lib/roleManager')(app, config.roles);
 var roleHandler = roleManager.roleHandler;
-authenticator.oauth2 = oauth2;
 authenticator.roleManager = roleHandler;
-
-if (process.env.NODE_ENV === 'test') {
-  app.use(authenticator.mockPassport.initialize(userPropertyConfig));
-} else {
-  app.use(authenticator.passport.initialize(userPropertyConfig));
-}
-
-app.use(authenticator.passport.session());
-app.use(roleHandler.middleware());
-app.use(authenticator);
-app.use(oauth2);
-app.use(roleManager);
-app.use(menus);
-
 /*
-  End User Authentication
+End user Auth
  */
+
+app.use(flash());
 
 /* Route requests through the metrics and logging processing */
 app.use(appMetrics.reqWrapper);
 
-/* Pass the requests through the routes */
-app.use(app.router);
-
 /* Last chance, perhaps it is a static resource, most of this offloaded to Nginx */
 /*jslint nomen: true*/
 app.use(express.static(path.join(__dirname, 'public')));
+
 /*jslint nomen: false*/
 /* Development Environment Code */
-app.configure('development', function () {
+/*app.configure('development', function () {
   "use strict";
   app.use(express.errorHandler());
   app.locals.pretty = true;
 });
-
+*/
 require("./routes")(app, config, authenticator, redisClient);
 
 var server = require('http').createServer(app);

@@ -73,8 +73,27 @@ module.exports = function(grunt) {
         target: {
             src: ['src/app.js']
         }
+    },
+    sass: {
+      dist: {
+        options: {
+          style: 'nested'
+        },
+        files: {
+          'components/patternfly/dist/css/patternfly.css': '/patternfly.scss'
+        }
+      }
+    },
+    watch: {
+      css: {
+        files: '**/*.scss',
+        tasks: ['sass']
+      }
     }
   });
+
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-githooks');
@@ -85,6 +104,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-execute');
 
+  grunt.registerTask('dev',['sass','jshint']);
+  grunt.registerTask('watchsass',['watch']);
   grunt.registerTask('hooks', 'githooks');
   grunt.registerTask('run', ['env:development', 'execute']);
   grunt.registerTask('test', ['env:test', 'mochaTest', 'mochacov:test', 'jshint']);

@@ -114,7 +114,7 @@ module.exports = function (app, config, authenticator) {
         app.locals.logger.log('debug', 'fetched data from Sensu');
         for (var i=0; i<clients.length; i++)
         {
-          var utils = require('../lib/utils');
+          var utils = require('../../lib/utils');
           clients[i].timestamp = utils.getFormattedTimestamp(clients[i].timestamp);
         }
         res.type('application/json');

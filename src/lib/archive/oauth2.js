@@ -8,8 +8,8 @@ module.exports = function(app, config, authenticator) {
   var login = authenticator.login;
 
   var oauth2orize = require('oauth2orize');
-  var utils = require('./utils');
-  var db = require('./db')();
+  var utils = require('./../utils');
+  var db = require('./../db/index')();
 
 // create OAuth 2.0 server
   var server = oauth2orize.createServer();
