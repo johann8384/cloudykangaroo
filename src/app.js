@@ -133,7 +133,7 @@ app.use(morgan('combined', {stream: logstream }));
 app.use(compression());
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.json({strict: false}));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(require('connect-requestid'));
 app.use(useragent.express());
@@ -146,6 +146,8 @@ app.use(cookieParser(config.cookie.secret))
 var session = require('express-session') , RedisStore = require('connect-redis')(session);
 
 app.use(session({
+  resave: true,
+  saveUninitialized: true,
   store: new RedisStore({
     host: config.redis.host,
     port: config.redis.port
@@ -153,10 +155,9 @@ app.use(session({
   secret: config.cookie.secret
 }));
 
-var authenticator = require('./lib/auth')(app, credentials, config, redisClient);
-var roleManager = require('./lib/roleManager')(app, config.roles);
-var roleHandler = roleManager.roleHandler;
-authenticator.roleManager = roleHandler;
+var userManagement = require('./lib/userManagement')(app, config, credentials, redisClient);
+app.use(userManagement.middleware());
+
 /*
 End user Auth
  */

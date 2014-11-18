@@ -189,6 +189,7 @@ module.exports = function(app, credentials, config, redisClient) {
    * @param next
    */
   var handle = function (req, res, next) {
+    app.locals.logger.log('debug', 'auth middleware called');
     next();
   };
 

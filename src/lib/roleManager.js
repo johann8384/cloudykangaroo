@@ -198,18 +198,6 @@ module.exports = function(app, roles) {
     getRolesCallback(null, userRoles);
   };
 
-  var handle = function (req, res, next) {
-    if (req.hasOwnProperty('currentUser')) {
-      getCachedRoles(req.currentUser, function (err, userRoles) {
-        req.currentUser.roles = userRoles;
-        next();
-      });
-    } else {
-      app.locals.logger.log('debug', 'no roles added, no user');
-      next();
-    }
-  };
-
   var isUsers = function (req) {
     return hasRequiredRoles(req.currentUser, ['users']);
   };
@@ -314,6 +302,18 @@ module.exports = function(app, roles) {
   roleHandler.use('delete monitoring events', function (req) {
     return isHelpdesk(req) || isAdmin(req) || isSuper(req);
   });
+
+  var handle = function (req, res, next) {
+    if (req.hasOwnProperty('currentUser')) {
+      getCachedRoles(req.currentUser, function (err, userRoles) {
+        req.currentUser.roles = userRoles;
+        next();
+      });
+    } else {
+      app.locals.logger.log('debug', 'no roles added, no user');
+      next();
+    }
+  };
 
   initializeRoles();
 
