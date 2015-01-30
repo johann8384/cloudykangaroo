@@ -72,6 +72,10 @@ app.use(appMetrics.reqWrapper);
 app.use(stylus.middleware({ src: __dirname + '/public', compile: compile}));
 app.use(express.static(__dirname + '/public'));
 
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+}
+
 app.get('/', function (req, res) {
   res.render('index',
   { title : 'Home' }

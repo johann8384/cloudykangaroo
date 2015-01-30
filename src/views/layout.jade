@@ -1,5 +1,5 @@
 doctype
-html
+html.login-pf
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible' content='IE=edge')
@@ -8,18 +8,14 @@ html
         meta(name='author', content='Cloudy Kangaroo')
         title #{title}
         include _head_css
+        include _head_js
         block head
         block style
     body
-        header
-            h1 My Site Dev
         span#badge
             img(src='/img/logo.svg', alt='PatternFly logo')
         .container
-            .main-content
-                block content
-            .sidebar
-                block sidebar
-include _footer
-include _head_js
-block footer
+            block content
+        include _footer
+        block footer
+

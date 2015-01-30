@@ -69,38 +69,99 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     },
-    bowercopy: {
-      options: {
-        srcPrefix: 'bower_components'
-      },
-      scripts: {
-        options: {
-          destPrefix: 'src/public/js/vendor'
+    bower: grunt.file.readJSON('./.bowerrc'),
+    copy: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'bower_components/font-awesome/css/',
+          src: 'font-awesome.min.css',
+          dest: 'src/public/css'
         },
-        files: {
-          'jquery/jquery.js': 'jquery/jquery.js',
-          'angular/angular.js': 'angular/angular.js',
-          'react/react.js': 'react/react.js'
-        }
-      }
-    },
-    less: {
-      development: {
-        files: {
-          'src/public/patternfly/css/patternfly.css': 'src/public/components/patternfly/less/patternfly.less'
+        {
+          expand: true,
+          cwd: 'bower_components/font-awesome/fonts/',
+          src: '*',
+          dest: 'src/public/fonts'
         },
-        options: {
-          paths: ['less/']
-        }
-      },
-      production: {
-        files: {
-          'src/public/patternfly/css/patternfly.min.css': 'src/public/components/patternfly/less/patternfly.less'
+        {
+          expand: true,
+          cwd: 'bower_components/html5shiv/dist/html5shiv/',
+          src: '*.min.js',
+          dest: 'src/public/js'
         },
-        options: {
-          cleancss: true,
-          paths: ['less/']
-        }
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap-treeview/dist/',
+          src: '*.min.js',
+          dest: 'src/public/js'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap-combobox/js/',
+          src: '*.js',
+          dest: 'src/public/js'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap-select/',
+          src: '*.min.js',
+          dest: 'src/public/js'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/jquery/',
+          src: '*.min.js',
+          dest: 'src/public/js'
+        },
+          {
+            expand: true,
+            cwd: 'bower_components/jquery/',
+            src: '*.min.map',
+            dest: 'src/public/js/dist'
+          },
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap/dist/css/',
+          src: '*.min.css',
+          dest: 'src/public/css'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap/dist/js/',
+          src: '*.min.js',
+          dest: 'src/public/js'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/bootstrap/dist/fonts/',
+          src: '*',
+          dest: 'src/public/fonts'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/patternfly/dist/img/',
+          src: '*',
+          dest: 'src/public/img'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/patternfly/dist/js/',
+          src: '*.min.js',
+          dest: 'src/public/js'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/patternfly/dist/fonts/',
+          src: '*',
+          dest: 'src/public/fonts'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/patternfly/dist/css/',
+          src: '*.min.css',
+          dest: 'src/public/css'
+        }]
       }
     },
     uglify: {
@@ -109,7 +170,7 @@ module.exports = function(grunt) {
       },
       production: {
         files: {
-          'src/public/patternfly/js/patternfly.min.js': ['src/public/components/patternfly/dist/js/patternfly.js']
+          'src/public/patternfly/js/patternfly.min.js': ['bower_components/patternfly/dist/js/patternfly.js']
         }
       }
     },
@@ -130,11 +191,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-execute');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('build', [
-    'less',
-    'uglify'
+    'uglify',
+    'copy'
   ]);
+
   grunt.registerTask('hooks', 'githooks');
   grunt.registerTask('run', ['env:development', 'execute']);
   grunt.registerTask('cov', ['env:test', 'mochacov:test', 'jshint']);

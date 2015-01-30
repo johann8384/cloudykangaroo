@@ -18,7 +18,7 @@ xunit.xml
 jshint.xml
 logs
 results
-src/public/components
+bower_components
 src/public/patternfly
 src/config/system-credentials.js
 src/config/system-credentials.js.tmp
