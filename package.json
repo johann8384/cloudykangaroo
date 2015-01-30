@@ -25,9 +25,6 @@
   },
   "devDependencies": {
     "assert": "*",
-    "mocha": "*",
-    "supertest": "*",
-    "travis-cov": "*",
     "grunt": "*",
     "grunt-blanket": "*",
     "grunt-contrib-jshint": "*",
@@ -35,11 +32,17 @@
     "grunt-env": "*",
     "grunt-execute": "*",
     "grunt-githooks": "*",
-    "grunt-mocha-cov": "*",
-    "grunt-mocha-test": "*"
+    "grunt-mocha-cov": "^0.3.0",
+    "grunt-mocha-test": "*",
+    "mocha": "*",
+    "supertest": "*",
+    "travis-cov": "*"
   },
   "dependencies": {
+    "contegix-logger": "*",
     "express": "4.x",
+    "express-useragent": "*",
+    "express-request-logger": "*",
     "jade": "*",
     "morgan": "*",
     "stylus": "*",
