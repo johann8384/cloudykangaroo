@@ -24,8 +24,27 @@
     "test": "grunt test"
   },
   "devDependencies": {
+    "assert": "*",
+    "mocha": "*",
+    "supertest": "*",
+    "travis-cov": "*",
+    "grunt": "*",
+    "grunt-blanket": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-coveralls": "*",
+    "grunt-env": "*",
+    "grunt-execute": "*",
+    "grunt-githooks": "*",
+    "grunt-mocha-cov": "*",
+    "grunt-mocha-test": "*"
   },
   "dependencies": {
+    "express": "4.x",
+    "jade": "*",
+    "morgan": "*",
+    "stylus": "*",
+    "nib": "*",
+    "node-uuid": "*"
   },
   "config": {
     "travis-cov": {
