@@ -1,0 +1,40 @@
+{
+  "name": "CloudyKangaroo",
+  "version": "0.5.0",
+  "authors": "Jonathan Creasy",
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/cloudykangaroo/cloudykangaroo/blob/master/LICENSE"
+  },
+  "homepage": "http://cloudykangaroo.github.io/cloudykangaroo",
+  "main": [
+    "src/public/js/patternfly.js",
+    "src/public/css/patternfly.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/components",
+    "test",
+    "tests",
+    "package.json",
+    "Gruntfile.js",
+    "PatternFlyIcons-webfont.json"
+  ],
+  "devDependencies": {
+    "bootstrap": "~3.1.1",
+    "bootstrap-combobox": "~1.1.6",
+    "bootstrap-select": "~1.5.4",
+    "bootstrap-treeview": "~1.0.1",
+    "datatables": "~1.10.4",
+    "datatables-colreorder": "~1.1.2",
+    "datatables-colvis": "~1.1.1",
+    "font-awesome": "~4.2.0",
+    "html5shiv": "~3.7.2",
+    "respond": "~1.4.2"
+  },
+  "dependencies": {
+    "patternfly": "~1.1.3"
+  }
+}

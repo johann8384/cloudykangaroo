@@ -16,6 +16,35 @@ module.exports = function(grunt) {
     jshint: {
       all: ['Gruntfile.js', 'src/app.js', 'src/routes/**/*.js', 'src/lib/**/*.js', 'src/public/javasripts/newTicketWizard.js', 'src/public/javascripts/sensu-helper.js', 'src/public/javascripts/puppet_gauges.js' ]
     },
+    less: {
+      development: {
+        files: {
+          'src/public/css/patternfly.css': 'less/patternfly.less'
+        },
+        options: {
+          paths: ['less/']
+        }
+      },
+      production: {
+        files: {
+          'src/public/css/patternfly.min.css': 'less/patternfly.less'
+        },
+        options: {
+          cleancss: true,
+          paths: ['less/']
+        }
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      production: {
+        files: {
+          'src/public/js/patternfly.min.js': ['src/public/js/patternfly.js']
+        }
+      }
+    },
     env : {
       test : {
         USE_NOCK: 'true',
@@ -85,6 +114,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-execute');
 
+  grunt.registerTask('build', [
+    'less',
+    'uglify'
+  ]);
   grunt.registerTask('hooks', 'githooks');
   grunt.registerTask('run', ['env:development', 'execute']);
   grunt.registerTask('test', ['env:test', 'mochaTest', 'mochacov:test', 'jshint']);

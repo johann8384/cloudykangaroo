@@ -69,6 +69,35 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     },
+    less: {
+      development: {
+        files: {
+          'src/public/patternfly/css/patternfly.css': 'src/public/components/patternfly/less/patternfly.less'
+        },
+        options: {
+          paths: ['less/']
+        }
+      },
+      production: {
+        files: {
+          'src/public/patternfly/css/patternfly.min.css': 'src/public/components/patternfly/less/patternfly.less'
+        },
+        options: {
+          cleancss: true,
+          paths: ['less/']
+        }
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      production: {
+        files: {
+          'src/public/patternfly/js/patternfly.min.js': ['src/public/components/patternfly/dist/js/patternfly.js']
+        }
+      }
+    },
     execute: {
         target: {
             src: ['src/app.js']
@@ -80,16 +109,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-blanket');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-execute');
 
+  grunt.registerTask('build', [
+    'less',
+    'uglify'
+  ]);
   grunt.registerTask('hooks', 'githooks');
   grunt.registerTask('run', ['env:development', 'execute']);
   grunt.registerTask('cov', ['env:test', 'mochacov:test', 'jshint']);
   grunt.registerTask('test', ['env:test', 'mochaTest', 'mochacov:test', 'jshint']);
-//  grunt.registerTask('test', ['env:test', 'mochaTest', 'jshint']);
   grunt.registerTask('report', ['mochacov:lcov', 'coveralls']);
   grunt.registerTask('default', ['env:development', 'mochaTest']);
 };

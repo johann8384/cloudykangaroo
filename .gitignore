@@ -18,8 +18,11 @@ xunit.xml
 jshint.xml
 logs
 results
+src/public/components
+src/public/patternfly
 src/config/system-credentials.js
 src/config/system-credentials.js.tmp
+src/views/*.html
 npm-debug.log
 node_modules
 dump.rdb
