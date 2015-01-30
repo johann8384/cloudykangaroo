@@ -82,6 +82,9 @@ function assignId(req, res, next) {
   req.id = uuid.v4();
   next();
 }
+
+require("./routes")(app, config);
+
 if (process.env.NODE_ENV !== 'test') {
   app.listen(3000);
 }
