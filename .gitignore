@@ -22,7 +22,8 @@ src/public/components
 src/public/patternfly
 src/config/system-credentials.js
 src/config/system-credentials.js.tmp
-src/views/*.html
+src/public
+
 npm-debug.log
 node_modules
 dump.rdb

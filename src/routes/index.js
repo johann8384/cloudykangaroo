@@ -4,6 +4,6 @@ module.exports = function (app, config) {
 
   app.get('/', function (req, res) {
     var opts = { title: 'Home' };
-    res.render('index', otps);
+    res.render('index', opts);
   });
 };

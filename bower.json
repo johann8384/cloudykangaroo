@@ -36,5 +36,11 @@
   },
   "dependencies": {
     "patternfly": "~1.1.3"
+  },
+  "exportsOverride": {
+    "bootstrap-*": {        // will match 'bootstrap-modal', 'bootstrap-notify', etc.
+      "js": "**/*.js",
+      "css": "**/*.css"
+    }
   }
 }

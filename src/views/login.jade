@@ -1,15 +1,28 @@
-doctype
-html
-  head
-    title #{title} - My Site
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    header
-      h1 My Site
-    .container
-      .main-content
-        block content
-      .sidebar
-        block sidebar
-  footer
-    p Running on node with Express, Jade and Stylus
+extend layout
+block content
+    .row
+        .col-sm-12
+            .brand
+                img(src='/img/brand.svg', alt='PatternFly Enterprise Application')
+        .col-sm-7.col-md-6.col-lg-5.login
+            form.form-horizontal(role='login')
+                .form-group
+                    label.col-sm-2.col-md-2.control-label(for='inputUsername') Username
+                    .col-sm-10.col-md-10
+                        input#inputUsername.form-control(type='text', placeholder='',tabindex=1)
+                .form-group
+                    label.col-sm-2.col-md-2.control-label(for='inputPassword') Password
+                    .col-sm-10.col-md-10
+                        input#inputPassword.form-control(type='text', placeholder='',tabindex=2)
+                .form-group
+                    .col-xs-8.col-sm-offset-2.col-sm-6.col-md-offset-2.col-md-6
+                        .checkbox
+                            .label
+                                .input(type='checkbox', tabindex='3') Remember Username
+                        span.help-block Forgot Username of Passowrd?
+                    .col-xs-4.col-sm-4.col-md-4.submit
+                        button.btn.btn-primary.btn-lg(type='submit', tabindex='4') Log In
+        .col-sm-5.co-md-6.col-lg-7.details
+            p
+                strong Welcome to PatternFly!
+                This is placeholder text, only. Use this area to place any information or introductory message about your application that may be relevant for users. For example, you might include news or information about the latest release of your product here&mdash;such as a version number.

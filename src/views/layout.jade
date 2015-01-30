@@ -1,15 +1,25 @@
 doctype
 html
     head
-        title #{title} - My Site
-        link(rel='stylesheet', href='/stylesheets/style.css')
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible' content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(name='description', content='Sensu/Ubersmith/Puppet Management Interface')
+        meta(name='author', content='Cloudy Kangaroo')
+        title #{title}
+        include _head_css
+        block head
+        block style
     body
         header
-            h1 My Site
+            h1 My Site Dev
+        span#badge
+            img(src='/img/logo.svg', alt='PatternFly logo')
         .container
             .main-content
                 block content
             .sidebar
                 block sidebar
-        footer
-            p Running on node with Express, Jade and Stylus
+include _footer
+include _head_js
+block footer

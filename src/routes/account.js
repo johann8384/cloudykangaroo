@@ -1,8 +1,8 @@
 module.exports = function (app, config) {
   "use strict";
 
-  app.get('/', function (req, res) {
+  app.get('/login', function (req, res) {
     var opts = { title: 'Home' };
-    res.render('index', otps);
+    res.render('login', opts);
   });
 };

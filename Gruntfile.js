@@ -69,6 +69,21 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     },
+    bowercopy: {
+      options: {
+        srcPrefix: 'bower_components'
+      },
+      scripts: {
+        options: {
+          destPrefix: 'src/public/js/vendor'
+        },
+        files: {
+          'jquery/jquery.js': 'jquery/jquery.js',
+          'angular/angular.js': 'angular/angular.js',
+          'react/react.js': 'react/react.js'
+        }
+      }
+    },
     less: {
       development: {
         files: {

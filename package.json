@@ -27,6 +27,7 @@
     "assert": "*",
     "grunt": "*",
     "grunt-blanket": "*",
+    "grunt-bowercopy": "^1.2.0",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-less": "^1.0.0",
     "grunt-contrib-uglify": "^0.7.0",
@@ -38,6 +39,7 @@
     "grunt-mocha-test": "*",
     "less": "^2.3.1",
     "mocha": "*",
+    "nib": "^1.1.0",
     "supertest": "*",
     "travis-cov": "*"
   },
