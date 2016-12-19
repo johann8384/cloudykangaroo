@@ -108,6 +108,14 @@ try {
 
   if (config.crmModule && config.crmModule.class) {
     crmModule = require(config.crmModule.class)(crmModuleConfig);
+    crmModule.populateDeviceList('http://localhost:8080/pdb/query/v4/nodes', function (err, devices) {
+      if (err) {
+        logger.log('error', 'Could not populate device list');
+      } else {
+        logger.log('debug', 'device list populated');
+        logger.log('silly', 'device list', devices);
+      }
+    });
   } else {
     var err = new Error('no crmModule specified in configuration');
     throw err;
@@ -115,9 +123,10 @@ try {
 }
   catch (e) {
 
-  logger.log('error', 'Could not initialize CRM Module', { error: e.message });
+  logger.log('error', 'Could not initialize CRM Module', { "class": config.crmModule.class, "error": e.message });
   throw e;
 }
+
 
 /* Load the monitoring module */
 try {

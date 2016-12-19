@@ -35,12 +35,12 @@ module.exports = function(grunt) {
         NODE_ENV : 'development',
         MGMT_DOMAIN: '.perspica.io',
         CREDS_CLASS: './config/system-dev-credentials',
-        CRM_CLASS: 'cloudy-localsmith',
+        CRM_CLASS: 'cloudy-amazonsmith',
         MON_CLASS: './lib/monitoring',
         INST_CLASS: './lib/instrumentation',
         REDIS_CLASS: 'fakeredis',
         LOG_LEVEL: 'hide',
-        LOG_LEVEL_SCREEN: 'info',
+        LOG_LEVEL_SCREEN: 'debug',
         TZ: 'Etc/GMT'
       }
     },

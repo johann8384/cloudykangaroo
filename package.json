@@ -60,6 +60,7 @@
     "express-session": "1.0.x",
     "express-useragent": "0.0.11",
     "features-helpdesk": "file:local_modules/helpdesk",
+    "cloudy-amazonsmith": "file:local_modules/cloudy-amazonsmith",
     "formidable": "1.0.x",
     "helmet": "^2.2.0",
     "measured": "0.1.x",

@@ -640,6 +640,22 @@ module.exports = function (app, config, authenticator) {
     });
   });
 
+  app.get('/api/v1/helpdesk/devices', authenticator.roleHandler.can('use api'), function (req, res) {
+    app.locals.crmModule.getAllDevices(function (err, deviceList) {
+      if (deviceList === null) {
+        res.send(500);
+      } else {
+        var devices = [];
+        Object.keys(deviceList).forEach(function (deviceID) {
+          var device = deviceList[deviceID];
+          devices.push(device);
+        });
+        res.type('application/json');
+        res.send(JSON.stringify({ aaData: devices}));
+      }
+    });
+  });
+
   app.get('/api/v1/helpdesk/devices/devgroups', authenticator.roleHandler.can('use api'), function (req, res) {
     app.locals.crmModule.getDeviceTypeList(function (err, deviceGroupList) {
       if (deviceGroupList === null) {
