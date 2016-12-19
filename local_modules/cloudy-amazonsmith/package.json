@@ -1,0 +1,17 @@
+{
+  "name": "cloudy-amazonsmith",
+  "version": "1.0.0",
+  "description": "Cloudy Kangaroo module for Amazon Web Services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Creasy <jonathan.creasy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.6.12"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
+  }
+}
